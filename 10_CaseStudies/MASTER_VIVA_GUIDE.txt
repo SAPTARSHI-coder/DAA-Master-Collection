@@ -1,0 +1,170 @@
+================================================================================
+         MASTER VIVA GUIDE — ALGORITHM PATTERN RECOGNITION SHEET
+          "Read this before every DAA viva!"
+================================================================================
+
+HOW TO APPROACH ANY UNSEEN PROBLEM IN EXAM
+============================================
+
+STEP 1: READ THE PROBLEM AND IDENTIFY KEY WORDS
+STEP 2: MAP KEYWORDS TO ALGORITHM PATTERN (see table below)
+STEP 3: VERIFY WITH: "Does greedy work?" / "Is there DP structure?"
+STEP 4: WRITE TIME + SPACE COMPLEXITY IMMEDIATELY
+STEP 5: CODE with meaningful names and comments
+
+
+================================================================================
+KEYWORD -> ALGORITHM MAPPING TABLE
+================================================================================
+
+KEYWORD(S) IN PROBLEM                 -> LIKELY ALGORITHM
+------------------------------------------------------------------------
+"Maximum meetings / tasks / activities"   GREEDY (sort by finish time)
+"Minimum platforms / rooms needed"        GREEDY (sort separately, 2 pointers)
+"Arrange to form largest number"          GREEDY (custom comparator: AB vs BA)
+"Circular tour / petrol pump"             GREEDY (single pass, reset start)
+"Maximum value in knapsack (fractions)"   GREEDY (sort by value/weight ratio)
+
+"Count ways to reach"                     DP (ways[n] = ways[n-1] + ways[n-2])
+"Minimum cost path in grid"               DP (grid DP, right/down only)
+"Cut rod / unlimited items / max profit"  DP (unbounded knapsack variant)
+"Egg drop / min trials"                   DP (minimax DP)
+"Can string be split into words?"         DP (string partition DP)
+"Longest common subsequence / substring"  DP (2D table)
+"0/1 knapsack / pick items (no fraction)" DP (2D table, take or skip)
+"Edit distance / min operations on string"DP (2D table, 3 operations)
+"Max subarray sum"                        DP / Kadane's O(n)
+"Longest increasing subsequence"          DP + sorting (O(n^2))
+
+"Count inversions"                        DIVIDE & CONQUER (modified merge sort)
+"x^n fast"                               DIVIDE & CONQUER (binary exponentiation)
+"Find median of stream"                   DIVIDE & CONQUER / HEAP
+
+"Shortest path / unweighted graph/grid"   BFS (explores level by level)
+"Shortest path / weighted, no negatives"  DIJKSTRA
+"Shortest path / weighted, with negatives"BELLMAN-FORD
+"Shortest path / all pairs"              FLOYD-WARSHALL
+"Minimum spanning tree"                   KRUSKAL (edge) or PRIM (vertex)
+"Count connected components"             DFS / BFS / UNION-FIND
+"Number of islands"                       DFS on grid (mark visited)
+"Detect cycle in directed graph"          DFS with recursion stack
+"Topological ordering"                    DFS (push to stack after all neighbors)
+
+"Find ALL combinations / subsets"         BACKTRACKING
+"Place N queens / valid arrangements"     BACKTRACKING
+"Solve Sudoku / constraint puzzle"        BACKTRACKING (constraint satisfaction)
+"Word search in grid"                     BACKTRACKING (DFS + path tracking)
+"Find path through maze"                  BACKTRACKING (DFS)
+
+"Find element in SORTED array"            BINARY SEARCH
+"Find element in ROTATED sorted array"    MODIFIED BINARY SEARCH
+"Minimum of maximum / maximum of minimum" BINARY SEARCH ON ANSWER
+"Aggressive cows / painters / books"      BINARY SEARCH ON ANSWER
+"Max sum of size K window"               SLIDING WINDOW (fixed)
+"Longest subarray with property..."       SLIDING WINDOW (variable)
+"Two-sum / pair sum in sorted array"      TWO POINTERS
+
+"Compress data / encode characters"       HUFFMAN CODING (greedy + tree)
+"Pattern matching in text"               KMP / Rabin-Karp / Naive
+"Schedule jobs by deadline and profit"    JOB SEQUENCING (greedy)
+
+
+================================================================================
+GREEDY vs DP: THE ONE BIG QUESTION
+================================================================================
+
+                    GREEDY                      DYNAMIC PROGRAMMING
+                    ------                      -------------------
+Makes choices:      ONCE (no reconsideration)   CONSIDERS ALL choices, picks best
+Subproblems:        Independent                 OVERLAPPING (same subproblem reused)
+Proof needed:       Exchange argument / proof   Optimal substructure
+Speed:              Generally FASTER            Slower but more powerful
+When to use:        Local optimum = global opt  When greedy fails; count/min/max
+
+TEST: Try a COUNTER-EXAMPLE for greedy.
+      If you find one where greedy fails -> USE DP.
+      Example: Knapsack (0/1) -> greedy by ratio FAILS -> use DP
+
+
+================================================================================
+BACKTRACKING vs DP vs BRUTE FORCE
+================================================================================
+
+BRUTE FORCE: Try ALL possibilities -> Exponential, no pruning
+BACKTRACKING: Try possibilities but ABANDON early when constraint violated
+              -> Better than brute force due to pruning
+DP:  Avoid RE-SOLVING same subproblems -> Polynomial time
+
+WHEN TO USE BACKTRACKING:
+  -> You need ALL solutions (N-queens all arrangements)
+  -> Constraint satisfaction (Sudoku, Graph Coloring)
+  -> There is NO polynomial-time DP for it
+  -> The problem has "trying + undoing" structure
+
+
+================================================================================
+COMPLEXITY QUICK REFERENCE
+================================================================================
+
+O(1)       Constant    -> Array index access, math formula
+O(log n)   Log         -> Binary search, fast exponentiation
+O(n)       Linear      -> Linear scan, Kadane's, BFS/DFS with adj list
+O(n log n) Log-linear  -> Merge sort, Quick sort avg, Kruskal, Dijkstra (heap)
+O(n^2)     Quadratic   -> Bubble/Selection/Insertion sort, LIS naive
+O(n^2 * k) Cubic-ish   -> DP with 3 nested loops (MCM, Egg Drop)
+O(2^n)     Exponential -> Brute force subsets, naive recursion
+O(n!)      Factorial   -> Checking all permutations (N-queens brute)
+
+MASTER THEOREM (For divide & conquer recurrences):
+  T(n) = T(n/2)   + O(1)  -> O(log n)         [Binary Search]
+  T(n) = 2T(n/2)  + O(n)  -> O(n log n)       [Merge Sort]
+  T(n) = 2T(n/2)  + O(1)  -> O(n)             [Tree traversal]
+  T(n) = T(n-1)   + O(1)  -> O(n)             [Linear recursion]
+  T(n) = 2T(n-1)  + O(1)  -> O(2^n)           [Fibonacci naive]
+
+
+================================================================================
+COMMON VIVA QUESTIONS & ANSWERS
+================================================================================
+
+Q: Why use Greedy for Activity Selection?
+A: Greedy works because choosing the activity that finishes EARLIEST leaves
+   maximum time for future activities. No future choice can do better.
+
+Q: Why does Dijkstra fail with negative weights?
+A: Dijkstra marks a vertex as "finalized" once visited. A negative weight
+   could later provide a shorter path to an already-finalized vertex.
+
+Q: What is the difference between BFS and DFS?
+A: BFS explores level by level (uses QUEUE), finds shortest path in unweighted graphs.
+   DFS goes as deep as possible (uses STACK/RECURSION) before backtracking.
+
+Q: What is memoization vs tabulation?
+A: Memoization = Top-Down DP. Recursive function stores computed results.
+   Tabulation = Bottom-Up DP. Iteratively fills a table from base cases up.
+   Both have same time and space complexity.
+
+Q: When does greedy work for Knapsack?
+A: ONLY for Fractional Knapsack (can take partial items).
+   For 0/1 Knapsack (must take completely or not at all), greedy fails and we need DP.
+
+Q: Why is KMP better than Naive string matching?
+A: Naive: O(n*m) because text pointer can go backward on mismatch.
+   KMP: O(n+m) because LPS array tells us how far to skip. Text pointer NEVER goes back.
+
+Q: What is the Subset Sum problem and its complexity?
+A: Given integers, can a subset sum to target? DP solution: O(n * target).
+   It's an NP-Complete problem for general inputs (exponential for unbounded).
+
+Q: What is the difference between Kruskal and Prim?
+A: Kruskal: EDGE-BASED. Sort all edges, add if no cycle forms (uses UNION-FIND).
+            Better for SPARSE graphs.
+   Prim: VERTEX-BASED. Grow tree from one vertex by adding min-weight edge.
+         Better for DENSE graphs.
+
+Q: What is backtracking and how does it differ from recursion?
+A: All backtracking is recursive, but not all recursion is backtracking.
+   Backtracking: Recursion + UNDOING choices when a path fails.
+   (Like solving a maze: try, get stuck, come back, try another path)
+
+================================================================================
