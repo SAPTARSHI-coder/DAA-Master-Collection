@@ -442,6 +442,6 @@ This project is licensed under the **MIT License** — free to use, share, and l
 
 **⭐ Star this repo if it helped you — it keeps the project alive!**
 
-*Made with ❤️ for students who want to understand, not just memorize.*
+*Made with ❤️ by Saptarshi Sadhu for students who want to understand, not just memorize.*
 
 </div>
